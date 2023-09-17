@@ -1,25 +1,20 @@
-import React, { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../app/slices/fetchSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { store } from "../app/store";
 export default function View() {
   const dispatch = useAppDispatch();
-  // const titleData = store.getState();
-  const { userId, title } = useAppSelector((state) => state.fetchApi);
-
-  console.log("store.getState :", store.getState().fetchApi, userId, title);
-
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+  const { data } = store.getState().fetchApi;
+  const arr: Array<number | string> = [];
+  for (const key in data) {
+    arr.push(data[key]);
+  }
 
   return (
     <div>
       <button onClick={() => dispatch(fetchData())}>Click</button>
-      <p>{userId}</p>
-      <h1>{title}</h1>
-      <p>USER</p>
+      {arr.map((item) => {
+        return <h1>{item}</h1>;
+      })}
     </div>
   );
 }

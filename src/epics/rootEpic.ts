@@ -3,4 +3,4 @@ import { fetchEpic } from "./fetchEpic";
 
 const epics = [fetchEpic];
 
-export const RootEpics =  combineEpics(...epics);
+export const RootEpics = combineEpics(...epics);

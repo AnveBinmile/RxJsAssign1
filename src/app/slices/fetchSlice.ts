@@ -21,7 +21,7 @@ const fetchSlice = createSlice({
     errorFetchedData: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-      state.data=[];
+      state.data = [];
     },
   },
 });
