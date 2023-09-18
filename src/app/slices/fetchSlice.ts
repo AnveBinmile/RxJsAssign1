@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: false,
-  data: [],
+  data:{},
   error: "",
 };
 
@@ -24,6 +24,7 @@ const fetchSlice = createSlice({
       state.data = [];
     },
   },
+
 });
 
 export const { fetchData, setData, errorFetchedData } = fetchSlice.actions;

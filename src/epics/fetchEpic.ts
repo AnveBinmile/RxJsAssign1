@@ -7,7 +7,9 @@ import {
   catchError,
   takeUntil,
   map,
+  mergeMap,
 } from "rxjs/operators";
+
 import { StateObservable } from "redux-observable";
 import { RootAction, RootState } from "../type";
 
@@ -20,14 +22,18 @@ export const fetchEpic = (
   action$: Observable<RootAction>,
   state$: StateObservable<RootState>
 ) =>
-  action$.pipe(filter(fetchData.match), debounceTime(500), () => {
-    return from(getData()).pipe(
-      map((res) => {
-        return setData(res);
-      }),
-      takeUntil(action$.pipe(filter(fetchData.match))),
-      catchError((error) => {
-        return of(errorFetchedData(error.message));
-      })
-    );
-  });
+  action$.pipe(
+    filter(fetchData.match),
+    debounceTime(500),
+    mergeMap(() => {
+      return from(getData()).pipe(
+        map((res) => {
+          return setData(res);
+        }),
+        takeUntil(action$.pipe(filter(fetchData.match))),
+        catchError((error) => {
+          return of(errorFetchedData(error.message));
+        })
+      );
+    })
+  );

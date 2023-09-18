@@ -1,20 +1,20 @@
 import { fetchData } from "../app/slices/fetchSlice";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { store } from "../app/store";
+import { useEffect } from "react";
 export default function View() {
   const dispatch = useAppDispatch();
-  const { data } = store.getState().fetchApi;
-  const arr: Array<number | string> = [];
-  for (const key in data) {
-    arr.push(data[key]);
-  }
+  const state = useAppSelector((state) => state.fetchApi);
+  const { loading, data, error } = state;
+
+  const handleClick = () => {
+    dispatch(fetchData());
+  };
 
   return (
     <div>
-      <button onClick={() => dispatch(fetchData())}>Click</button>
-      {arr.map((item) => {
-        return <h1>{item}</h1>;
-      })}
+      <button onClick={handleClick}>GET DATA</button>
+      <h1>{data?.title}</h1>;
     </div>
   );
 }
